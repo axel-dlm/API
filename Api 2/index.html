@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Faits sur les Chats</title>
+</head>
+<body>
+    <h1>Fait Aléatoire sur les Chats</h1>
+    <button id="loadFact">Obtenir un fait sur les chats</button> <!-- Bouton pour charger un fait -->
+    <div id="fact"></div> <!-- Div pour afficher le fait -->
+
+    <script>
+        document.getElementById('loadFact').addEventListener('click', function() {
+            // Lorsque le bouton est cliqué, cette fonction est déclenchée
+            fetch('https://catfact.ninja/fact') // Fait une requête à l'API 
+                .then(response => response.json()) // Convertit la réponse en JSON
+                .then(data => {
+                    // Traite les données JSON
+                    const factDiv = document.getElementById('fact');
+                    factDiv.textContent = data.fact; // Affiche le fait dans la div
+                })
+                .catch(error => {
+                    // Gère les erreurs
+                    console.error('Erreur lors de la récupération du fait sur les chats:', error);
+                    document.getElementById('fact').textContent = 'Erreur lors de la récupération du fait sur les chats.';
+                    // Affiche un message d'erreur dans la div
+                });
+        });
+    </script>
+</body>
+</html>
+
