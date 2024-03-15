@@ -1,34 +1,73 @@
-
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <title>Faits sur les Chats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random dog</title>
+
+   
+    <style>
+        /* Style pour le corps de la page */
+        body {
+            background-color: #1e3656;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0;
+        }
+
+        /* Style pour l'image du chien */
+        #img-dog {
+            width: 30%; 
+            border-radius: 10px; 
+        }
+
+        /* Style pour le bouton "Woof" */
+        #fectch-dog {
+            background-color: #3f8ad8; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none;
+            border-radius: 5px; 
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+   
 </head>
 <body>
-    <h1>Fait Aléatoire sur les Chats</h1>
-    <button id="loadFact">Obtenir un fait sur les chats</button> <!-- Bouton pour charger un fait -->
-    <div id="fact"></div> <!-- Div pour afficher le fait -->
+    <img id="img-dog" src="https://random.dog/ece9c4d3-82e7-4bb7-a647-90cbf67a9d15.jpg" alt="chien"> 
+    
+
+    <button id="fectch-dog">
+        Woof
+    </button>
+   
 
     <script>
-        document.getElementById('loadFact').addEventListener('click', function() {
-            // Lorsque le bouton est cliqué, cette fonction est déclenchée
-            fetch('https://catfact.ninja/fact') // Fait une requête à l'API 
-                .then(response => response.json()) // Convertit la réponse en JSON
-                .then(data => {
-                    // Traite les données JSON
-                    const factDiv = document.getElementById('fact');
-                    factDiv.textContent = data.fact; // Affiche le fait dans la div
-                })
-                .catch(error => {
-                    // Gère les erreurs
-                    console.error('Erreur lors de la récupération du fait sur les chats:', error);
-                    document.getElementById('fact').textContent = 'Erreur lors de la récupération du fait sur les chats.';
-                    // Affiche un message d'erreur dans la div
-                });
-        });
+        //  clique sur le bouton, la fonction refreshDog() est appelée et refreshdog ca appel l'Api.
+        document.querySelector('#fectch-dog').addEventListener('click', async () =>{
+            refreshDog()
+        })
+
+        // obtenir une nouvelle image de chien depuis une source aléatoire, puis elle vérifie si cette image est une vidéo ou non. Si c'est une vidéo, elle essaie à nouveau d'obtenir une image. Si c'est une image, elle la met à jour sur la page web
+        async function refreshDog() {
+            var fetchResult = await fetch('https://random.dog/woof.json')
+        
+            var data = await fetchResult.json()
+            // Transformation de la réponse en JSON
+
+            if (data.url.includes('.mp4')) {
+                refreshDog()
+                return
+            }
+            // Vérification si l'URL pointe vers une vidéo, dans ce cas, la fonction est rappelée
+
+            document.querySelector('#img-dog').src = data.url
+            // Mise à jour de la source de l'image avec l'URL générée
+        }
     </script>
 </body>
 </html>
-
